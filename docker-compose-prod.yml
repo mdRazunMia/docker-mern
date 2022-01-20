@@ -1,0 +1,11 @@
+version: '3'
+services:
+  node-docker-mern-container:
+    build:
+      context: .
+      args:
+        NODE_ENV: production
+    environment:
+      - NODE_ENV=production
+    command: node server.js
+    
