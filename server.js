@@ -1,10 +1,32 @@
 const express = require("express")
 const mongoose = require("mongoose")
 const postRouter = require('./routes/postRoutes')
+const userRouter = require('./routes/userRoutes')
+const session = require('express-session')
+const redis = require('redis')
+let RedisStore = require("connect-redis")(session)
 
+let redisClient = redis.createClient({
+    host: "redis",
+    port: "6379"
+})
 
 const app = express()
 
+
+app.use(session({
+    store: new RedisStore({client: redisClient}),
+    secret: "sfsjfjsdkfjdjfd",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+        secure: false,
+        resave: false,
+        saveUninitialized: false,
+        httpOnly: true,
+        maxAge: 30000,
+    }
+}))
 app.use(express.json())
 
 mongoose
@@ -23,6 +45,8 @@ app.get('/',(req, res)=>{
 })
 
 app.use("/api/v1/posts",postRouter)
+app.use("/api/v1/users",userRouter)
+
 
 const PORT = process.env.PORT || 3001
 

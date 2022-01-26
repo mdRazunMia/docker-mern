@@ -1,4 +1,4 @@
-version: '3'
+version: "3"
 services:
   node-docker-mern-container:
     build:
@@ -11,3 +11,8 @@ services:
     environment:
       - NODE_ENV=development
     command: npm run dev
+
+  mongo:
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=dotOnline
+      - MONGO_INITDB_ROOT_PASSWORD=dotonline
